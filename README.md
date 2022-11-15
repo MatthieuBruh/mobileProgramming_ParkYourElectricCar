@@ -15,6 +15,7 @@ The used technologies are:
 
 
 The application is not yet available on the Play Store but you can access to the application by downloading the Expo application on your phone and use the following link:
+https://expo.dev/@matthieu_bruh/ParkYourElectricCar?serviceType=classic&distribution=expo-go
 
 You can also use the project on your own computer for your use.
 To install the project, you need to have NodeJS installed on your computer.

@@ -9,20 +9,35 @@ export default function DisplayListSpots(props) {
     const user = props.user;
     const favorite = props.favorite;
 
+    /**
+     * This function is used to save the parking spot in the user's favorites
+     * @param {*} feature_id corresponds to the id of the parking spot
+     */
     const saveParkingSpot = (feature_id) => {
         const database = getDatabase();
         update( ref(database, 'users/' + user + '/spots/'),{
             [feature_id]: true
         });
     }
-
+    
+    /**
+     * This function is used to remove the parking spot from the user's favorites
+     * @param {*} feature_id corresponds to the id of the parking spot
+     */
     const removeParkingSpot = (feature_id) => {
         const database = getDatabase();
         update( ref(database, 'users/' + user + '/spots/'),{
             [feature_id]: null
         });
+        props.setFavorites(currentFav => {
+            return [];
+        });
     }
 
+    /**
+     * This function is used to ensure that the user wants to make an itinerary to a unavailable parking spot
+     * @returns 
+     */
     const verify = () => {
         return new Promise((resolve, reject) => {
             Alert.alert(
@@ -37,6 +52,11 @@ export default function DisplayListSpots(props) {
         })
     }
 
+    /**
+     * This function is used to make an itinerary to the parking spot
+     * @param {*} spot 
+     * @returns 
+     */
     const goTo = async (spot) => {
         if (spot.attributes.Availability !== 'Available') {
             if (!await verify() ) {
@@ -142,7 +162,7 @@ const listSeparator = () => {
   }
 
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     scroll: {
         backgroundColor: 'white',
     }

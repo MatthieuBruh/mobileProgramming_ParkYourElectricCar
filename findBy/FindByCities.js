@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { initializeApp } from'firebase/app';
 import { getDatabase, ref, onValue } from'firebase/database';
 import { Button, Input, Header } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { INIT_FIREBASE } from '../constants';
 
 export default function FindByCities({ route, navigation }) {
     const user = route.params.user;
     // Firebase connection
-    const firebaseConfig = {
-        apiKey: "AIzaSyDSwV47orAG2kxn7jNLQ8WHtdEO3lfm8lc",
-        authDomain: "parkyourelectriccar.firebaseapp.com",
-        databaseURL: "https://parkyourelectriccar-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "parkyourelectriccar",
-        storageBucket: "parkyourelectriccar.appspot.com",
-        messagingSenderId: "305020031978",
-        appId: "1:305020031978:web:1fc2e0c1cecc5dec75d893",
-        measurementId: "G-5ZS5KRJF8D"
-    };
+    const firebaseConfig = INIT_FIREBASE;
 
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, promptAsync } from 'react';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { Button, Header } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -6,28 +7,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, push, ref, update, onValue } from'firebase/database';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth/react-native';
+import { getDatabase, ref, update } from'firebase/database';
 import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { INIT_FIREBASE } from '../constants';
 
-
-initializeApp({
-    apiKey: "AIzaSyDSwV47orAG2kxn7jNLQ8WHtdEO3lfm8lc",
-    authDomain: "parkyourelectriccar.firebaseapp.com",
-    databaseURL: "https://parkyourelectriccar-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "parkyourelectriccar",
-    storageBucket: "parkyourelectriccar.appspot.com",
-    messagingSenderId: "305020031978",
-    appId: "1:305020031978:web:1fc2e0c1cecc5dec75d893",
-    measurementId: "G-5ZS5KRJF8D"
-});
+const app = initializeApp(INIT_FIREBASE);
+initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Home({ navigation }) {
     const [user, setUser] = useState({});
-    /*const [user, setUser] = useState({
-        uid: 'R3K4U9nfcRNvm95rJJBDVqJDJ4o2'
-    });*/
+    // const auth = 
     const database = getDatabase();
     const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
         {
@@ -35,6 +27,10 @@ export default function Home({ navigation }) {
         },
     );
     
+    /**
+     * This function is used to see if the user is already logged in or not
+     * If the user is logged in, we get the user's data from the database
+     */
     useEffect(() => {
         if (response?.type === 'success') {
           const { id_token } = response.params;
@@ -129,29 +125,6 @@ export default function Home({ navigation }) {
         </View>
     );
 }
-
-/*
-
- {
-                user.uid ? (
-                    <View style={{marginBottom: 20, width: '100%'}}>
-                        <Text style={styles.userText}>Welcome {user.displayName}</Text>
-                    </View>
-                    
-                    
-                ) : (
-                    <View style={{marginBottom: 20}}>
-                        <Button
-                            buttonStyle={styles.button}
-                            icon={ <Icon name="google" size={15} color="white" /> }
-                            onPress={() => promptAsync()}/>
-                    </View>
-                )
-            }
-
-*/
-
-
 
 const styles = StyleSheet.create({
     container: {

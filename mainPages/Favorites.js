@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { Button, Header } from 'react-native-elements';
+import { StyleSheet, Text, View } from 'react-native';
+import { Header } from 'react-native-elements';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, push, ref, update, onValue } from'firebase/database';
+import { getDatabase, ref, onValue } from'firebase/database';
 import DisplayListSpots from './DisplayListSpots';
+import { INIT_FIREBASE } from '../constants';
 
-initializeApp({
-    apiKey: "AIzaSyDSwV47orAG2kxn7jNLQ8WHtdEO3lfm8lc",
-    authDomain: "parkyourelectriccar.firebaseapp.com",
-    databaseURL: "https://parkyourelectriccar-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "parkyourelectriccar",
-    storageBucket: "parkyourelectriccar.appspot.com",
-    messagingSenderId: "305020031978",
-    appId: "1:305020031978:web:1fc2e0c1cecc5dec75d893",
-    measurementId: "G-5ZS5KRJF8D"
-});
+initializeApp(INIT_FIREBASE);
 
 export default function Favorites({ route, navigation }) {
     const [ready, setReady] = useState(false);
@@ -23,8 +15,14 @@ export default function Favorites({ route, navigation }) {
     const [favorites, setFavorites] = useState([]);
 
 
-    useEffect(() => {
-        setFavorites([]);
+    /**
+     * This function is used to get the user's favorites from the database
+     * Then we fetch the API to get the details of the parking spots
+     */
+    const getFavorites = () => {
+        setFavorites(currentFav => {
+            return [];
+        });
         let spotsRef = ref(database, 'users/' + user + '/spots/');
         onValue(spotsRef, (snapshot) => {
             const data = snapshot.val();
@@ -44,6 +42,13 @@ export default function Favorites({ route, navigation }) {
             })
             setReady(true);
         });
+    };
+
+    /**
+     * This function is used to call the getFavorites function when the component is mounted
+     */
+    useEffect(() => {
+        getFavorites();
     }, []);
 
     return (
@@ -60,7 +65,7 @@ export default function Favorites({ route, navigation }) {
             }
             {
                 ready && favorites.length > 0 ?
-                ( <DisplayListSpots spots={favorites} user={user} favorite={true} /> ) :
+                ( <DisplayListSpots spots={favorites} setFavorites={setFavorites} user={user} favorite={true} /> ) :
                 ( 
                     <View style={styles.noFavorite}>
                         <Text style={styles.noFavoriteText}>You don't have any favorites</Text>

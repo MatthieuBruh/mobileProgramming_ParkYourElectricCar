@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from'react-native-maps';
 import { Header } from 'react-native-elements';
 
@@ -17,6 +16,10 @@ export default function FindByMap({ route, navigation }) {
         longitudeDelta: 5,
     });
 
+    /**
+     * Fetches the parking spots from the API
+     * We use the zip code of the municipality to the API to get the parking spots
+     */
     useEffect(() => {
         fetch(`https://api3.geo.admin.ch/rest/services/api/MapServer/find?layer=ch.bfe.ladestellen-elektromobilitaet&searchText=${municipality.zip}&searchField=PostalCode&returnGeometry=false`)
         .then((response) => response.json())

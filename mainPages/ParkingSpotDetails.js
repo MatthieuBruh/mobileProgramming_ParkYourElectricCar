@@ -1,35 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
-import { ListItem, Badge, Button, Icon, Header } from 'react-native-elements';
-import { Linking } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Header } from 'react-native-elements';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, update } from'firebase/database';
 import DisplayListSpots from './DisplayListSpots';
+import { INIT_FIREBASE } from '../constants';
 
-initializeApp({
-    apiKey: "AIzaSyDSwV47orAG2kxn7jNLQ8WHtdEO3lfm8lc",
-    authDomain: "parkyourelectriccar.firebaseapp.com",
-    databaseURL: "https://parkyourelectriccar-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "parkyourelectriccar",
-    storageBucket: "parkyourelectriccar.appspot.com",
-    messagingSenderId: "305020031978",
-    appId: "1:305020031978:web:1fc2e0c1cecc5dec75d893",
-    measurementId: "G-5ZS5KRJF8D"
-});
+initializeApp(INIT_FIREBASE);
 
 export default function ParkingSpotDetails({ route, navigation }) {
     const parkingSpot = route.params.parkingSpots;
     const user = route.params.user;
     const [isLoading, setLoading] = useState(true);
     const [parkingsSpotDetails, setParkingsSpotDetails] = useState([]);
-
-
-    const saveParkingSpot = (feature_id) => {
-        const database = getDatabase();
-        update( ref(database, 'users/' + user + '/spots/'),{
-            [feature_id]: true
-        });
-    }
 
     useEffect(() => {
         let url;

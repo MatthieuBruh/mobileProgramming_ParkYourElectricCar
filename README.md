@@ -20,10 +20,10 @@ https://expo.dev/@matthieu_bruh/ParkYourElectricCar?serviceType=classic&distribu
 You can also use the project on your own computer for your use.
 To install the project, you need to have NodeJS installed on your computer.
 Then, you need to install Expo CLI by running the following command:
-npm install -g expo-cli
+`npm install -g expo-cli`
 
 Then, you need to install the dependencies by running the following command:
-npm install
+`npm install`
 
 If you want to contribute to the project, please contact me by creating an issue on GitHub.
 Please do not use the code without my permission.

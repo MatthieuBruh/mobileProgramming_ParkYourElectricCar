@@ -2,6 +2,7 @@
 
 ```diff
 - DOES NOT WORK ANYMORE. THE API IS DEPRECATED! -
++ Project will be updated soon +
 ```
 
 ParkYourElectricCar is a project that helps you to find a parking spot to charge your electric car.

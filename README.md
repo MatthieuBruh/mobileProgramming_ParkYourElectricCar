@@ -1,7 +1,13 @@
 # Park Your Electric Car
+
+```diff
+- DOES NOT WORK ANYMORE. THE API IS DEPRECATED! -
+```
+
 ParkYourElectricCar is a project that helps you to find a parking spot to charge your electric car.
 It uses the **opentransportdata.swiss** API to get the parking spots.
 This project is a mobile application available on Android ONLY.
+
 
 ## Technologies
 The application is developed in React Native and uses different technologies.
